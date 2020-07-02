@@ -27,12 +27,12 @@ export default {
       default: 'Java',
     },
     stars: {
-      type: String,
-      default: '266',
+      type: Number,
+      default: 5,
     },
     forks: {
-      type: String,
-      default: '222',
+      type: Number,
+      default: 66,
     },
   },
 }

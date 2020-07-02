@@ -89,9 +89,9 @@
 
 <script>
 import moment from 'moment'
-import PinnedRepos from '../../components/PinnedRepos'
-import FullRepos from '../../components/FullRepos'
-import TopLanguage from '../../components/TopLanguage'
+import PinnedRepos from '../components/PinnedRepos'
+import FullRepos from '../components/FullRepos'
+import TopLanguage from '../components/TopLanguage'
 export default {
   components: {
     PinnedRepos,
@@ -109,8 +109,8 @@ export default {
   },
   computed: {
     user() {
-      if (this.$route.params.repos) {
-        return this.$route.params.repos
+      if (this.$route.params.index) {
+        return this.$route.params.index
       } else {
         return 'camunda'
       }
