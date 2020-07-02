@@ -51,9 +51,9 @@
               placeholder="Search"
             ></b-form-input>
           </b-nav-form>
-          <b-nav-item class="no-collapse" href="#">Sing in</b-nav-item>
+          <b-nav-item class="no-collapse hide-c" href="#">Sing in</b-nav-item>
         </b-navbar-nav>
-        <b-navbar-nav class="no-collapse" align="center">
+        <b-navbar-nav class="no-collapse hide-c" align="center">
           <b-nav-item class="is-button" href="#">Sing up</b-nav-item>
         </b-navbar-nav>
       </b-collapse>
@@ -89,6 +89,7 @@ export default {}
   border-width: 0px;
   margin: 0 15px;
   color: white;
+  min-width: 250px;
   &:focus {
     background-color: white;
     color: black;
@@ -101,6 +102,12 @@ b-nav-item {
 
 @media (max-width: 991.98px) {
   .no-collapse {
+    display: none;
+  }
+}
+
+@media (max-width: 1200px) {
+  .hide-c {
     display: none;
   }
 }

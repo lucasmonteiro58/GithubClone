@@ -2,6 +2,7 @@
   <div>
     <github-header></github-header>
     <Nuxt />
+    <footer><p>© 2020 GitHub, Inc.</p></footer>
   </div>
 </template>
 <script>
@@ -22,6 +23,14 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
+}
+
+footer {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
 }
 
 *,

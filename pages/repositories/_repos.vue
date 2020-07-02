@@ -41,7 +41,7 @@
         </b-row>
       </b-container>
     </div>
-    <!-- <b-container>Singup container</b-container> -->
+    <!-- <b-container>Sigup container</b-container> -->
     <b-container class="pinned-repositories">
       <p class="title">Pinned Repositories</p>
       <div class="content-pined">
@@ -65,70 +65,40 @@
       </div>
     </b-container>
     <b-container class="list-repositories">
-      <b-row no-gutters>
-        <b-col md="9" sm="12" class="pinned-repos">
-          <full-repos
-            v-for="repos in listRepositories"
-            :key="repos.index"
-            :title="repos.name"
-            :description="repos.description"
-            :language="repos.language"
-            :forks="repos.forks"
-            :stars="repos.stargazers_count"
-            :issues="repos.open_issues_count"
-            :update="getTime(repos.updated_at)"
-          ></full-repos>
-        </b-col>
-        <b-col md="3" sm="12" class="pinned-repos">
-          <full-repos></full-repos>
-        </b-col>
-      </b-row>
+      list-repositories
     </b-container>
   </div>
 </template>
 
 <script>
-import moment from 'moment'
-import PinnedRepos from '../components/PinnedRepos'
-import FullRepos from '../components/FullRepos'
+import PinnedRepos from '../../components/PinnedRepos'
 export default {
   components: {
     PinnedRepos,
-    FullRepos,
   },
   data() {
     return {
       profile: {},
       pinnedRepositories: {},
-      listRepositories: {},
+      user: this.$route.params.repos,
     }
   },
   created() {
     this.getProfile()
     this.getPinnedRepos()
-    this.getListRepos()
   },
   methods: {
     async getProfile() {
       const data = await this.$axios.$get(
-        'https://api.github.com/users/camunda'
+        'https://api.github.com/users/' + this.user
       )
       this.profile = data
     },
     async getPinnedRepos() {
       const data = await this.$axios.$get(
-        'https://gh-pinned-repos.now.sh/?username=camunda'
+        'https://gh-pinned-repos.now.sh/?username=' + this.user
       )
       this.pinnedRepositories = data
-    },
-    async getListRepos() {
-      const data = await this.$axios.$get(
-        'https://api.github.com/users/camunda/repos'
-      )
-      this.listRepositories = data
-    },
-    getTime(data) {
-      return moment(data).fromNow()
     },
   },
 }
@@ -231,7 +201,6 @@ export default {
   }
 
   .pinned-repositories {
-    border-bottom: 1px solid #b4b4b44f;
     .content-pined {
       width: 100%;
       display: flex;
