@@ -41,7 +41,7 @@
         </b-row>
       </b-container>
     </div>
-    <!-- <b-container>Sigup container</b-container> -->
+    <!-- <b-container>Singup container</b-container> -->
     <b-container class="pinned-repositories">
       <p class="title">Pinned Repositories</p>
       <div class="content-pined">
@@ -65,27 +65,62 @@
       </div>
     </b-container>
     <b-container class="list-repositories">
-      list-repositories
+      <b-row no-gutters>
+        <b-col md="9" sm="12" class="list-repos">
+          <full-repos
+            v-for="repos in listRepositories"
+            :key="repos.index"
+            :title="repos.name"
+            :description="repos.description"
+            :language="repos.language"
+            :forks="repos.forks"
+            :stars="repos.stargazers_count"
+            :issues="repos.open_issues_count"
+            :update="getTime(repos.updated_at)"
+          ></full-repos>
+        </b-col>
+        <b-col md="3" sm="12" class="top-languages">
+          <top-language></top-language>
+        </b-col>
+      </b-row>
     </b-container>
   </div>
 </template>
 
 <script>
+import moment from 'moment'
 import PinnedRepos from '../../components/PinnedRepos'
+import FullRepos from '../../components/FullRepos'
+import TopLanguage from '../../components/TopLanguage'
 export default {
   components: {
     PinnedRepos,
+    FullRepos,
+    TopLanguage,
   },
   data() {
     return {
       profile: {},
       pinnedRepositories: {},
-      user: this.$route.params.repos,
+      listRepositories: {},
+      teste: [],
+      // user: this.$route.params.repos,
     }
+  },
+  computed: {
+    user() {
+      if (this.$route.params.repos) {
+        return this.$route.params.repos
+      } else {
+        return 'camunda'
+      }
+    },
   },
   created() {
     this.getProfile()
     this.getPinnedRepos()
+    this.getListRepos()
+    this.getTopLanguage()
   },
   methods: {
     async getProfile() {
@@ -99,6 +134,20 @@ export default {
         'https://gh-pinned-repos.now.sh/?username=' + this.user
       )
       this.pinnedRepositories = data
+    },
+    async getListRepos() {
+      const data = await this.$axios.$get(
+        'https://api.github.com/users/' + this.user + '/repos'
+      )
+      this.listRepositories = data
+    },
+    getTime(data) {
+      return moment(data).fromNow()
+    },
+    async getTopLanguage() {
+      // const obj = await this.$axios.$get(
+      //   'https://api.github.com/users/camunda/repos'
+      // )
     },
   },
 }
@@ -201,6 +250,7 @@ export default {
   }
 
   .pinned-repositories {
+    border-bottom: 1px solid #b4b4b44f;
     .content-pined {
       width: 100%;
       display: flex;
@@ -211,6 +261,16 @@ export default {
       }
     }
   }
+
+  .list-repositories {
+    .list-repos {
+      padding-right: 20px;
+    }
+  }
+}
+
+.top-languages {
+  padding: 16px;
 }
 
 @media (max-width: 510px) {

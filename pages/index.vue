@@ -66,7 +66,7 @@
     </b-container>
     <b-container class="list-repositories">
       <b-row no-gutters>
-        <b-col md="9" sm="12" class="pinned-repos">
+        <b-col md="9" sm="12" class="list-repos">
           <full-repos
             v-for="repos in listRepositories"
             :key="repos.index"
@@ -79,8 +79,8 @@
             :update="getTime(repos.updated_at)"
           ></full-repos>
         </b-col>
-        <b-col md="3" sm="12" class="pinned-repos">
-          <full-repos></full-repos>
+        <b-col md="3" sm="12" class="top-languages">
+          <top-language></top-language>
         </b-col>
       </b-row>
     </b-container>
@@ -91,22 +91,27 @@
 import moment from 'moment'
 import PinnedRepos from '../components/PinnedRepos'
 import FullRepos from '../components/FullRepos'
+import TopLanguage from '../components/TopLanguage'
 export default {
   components: {
     PinnedRepos,
     FullRepos,
+    TopLanguage,
   },
   data() {
     return {
       profile: {},
       pinnedRepositories: {},
       listRepositories: {},
+      teste: [],
+      // user: this.$route.params.repos,
     }
   },
   created() {
     this.getProfile()
     this.getPinnedRepos()
     this.getListRepos()
+    this.getTopLanguage()
   },
   methods: {
     async getProfile() {
@@ -129,6 +134,11 @@ export default {
     },
     getTime(data) {
       return moment(data).fromNow()
+    },
+    async getTopLanguage() {
+      // const obj = await this.$axios.$get(
+      //   'https://api.github.com/users/camunda/repos'
+      // )
     },
   },
 }
@@ -242,6 +252,16 @@ export default {
       }
     }
   }
+
+  .list-repositories {
+    .list-repos {
+      padding-right: 20px;
+    }
+  }
+}
+
+.top-languages {
+  padding: 16px;
 }
 
 @media (max-width: 510px) {
